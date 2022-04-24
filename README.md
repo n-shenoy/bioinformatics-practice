@@ -9,3 +9,4 @@ Here's a list of problems addressed in this repository:
 4. Finding the sequence with the highest GC content
 5. Mendel's First Law in action: finding the probability of getting an offspring with a dominant phenotype from two randomly selected organisms from a population
 6. Finding the reverse complement of a DNA strand
+7. Translating RNA into protein
