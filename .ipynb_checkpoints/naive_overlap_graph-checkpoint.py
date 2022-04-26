@@ -64,10 +64,13 @@ for element in overlaps: # print each value in the tuple side-by-side
 #   Rosalind_3354 Rosalind_2686....
 # ....and so on.    
         
-# (for instance, the first output line means that the 
+# for instance, the first output line means that the 
 # suffix of length 3 of the string in Rosalind_6569
 # matches the prefix of length 3 of the string labeled 
-# Rosalind_4612)
+# Rosalind_4612. To check whether this is true:
 
-    
+print(reads['Rosalind_6569'], reads['Rosalind_5735'])
+# indeed, the last 3 letters of Rosalind_6569 match the 
+# first 3 letters of Rosalind_5735
+
     
