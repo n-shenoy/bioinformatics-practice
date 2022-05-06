@@ -4,6 +4,24 @@
 
 __author__ = "Navami Shenoy"
 
+
+# helper function
+def overlap(a,b, min_length = 3): 
+    """ calculates the overlap length between two strings a and b. 
+        Author: Ben Langmead, Johns Hopkins University, Baltimore, MD """
+    start = 0
+    
+    while True:
+        # find the prefix of b in a
+        start = a.find(b[:min_length],start) 
+        if start == -1: 
+            # there is no overlap :(
+            return 0  
+        if b.startswith(a[start:]): 
+            return len(a) - start  
+        start += 1 
+
+        
 # faster version of naive_overlap_graph.py
 def overlap_all_pairs(reads, k): # k = minimum overlap length
     """ finds all pairs of reads that have an overlap of 
