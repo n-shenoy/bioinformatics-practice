@@ -10,3 +10,5 @@ Here's a list of problems addressed in this repository:
 5. Mendel's First Law in action: finding the probability of getting an offspring with a dominant phenotype from two randomly selected organisms from a population
 6. Finding the reverse complement of a DNA strand
 7. Translating RNA into protein
+8. Finding all occurrences of a motif in a DNA sequence
+9. Creating an Overlap Graph of sequencing reads 
