@@ -6,32 +6,37 @@
 __author__ = "Navami Shenoy"
 
 
+# helper function
+def reverse_complement(string):
+    # returns the reversed complement of a string
+    reversed_string = string[::-1]  # reverse the string
+    rev_comp_string = ''
+    
+    base_complement = {'A':'T', 'T':'A', 
+                        'G':'C', 'C':'G'}
+    # find the complement of the reversed string
+    for base in reversed_string:
+        rev_comp_string = rev_comp_string + base_complement[base]
+
+    return rev_comp_string 
+
+
 def reverse_palindrome(string, min_length, max_length):
     """ return the positions and lengths of all reverse palindromes
         occuring in a string """
     palindromes = []  # [(position, length of the reverse palindrome)]
 
-    # find the complement of the DNA string
-    complement = ''
-    base_complement = {'A':'T', 'T':'A', 
-                        'G':'C', 'C':'G'}
-    for base in string:
-        complement = complement + base_complement[base]
-
     # compare each possible substring of the string 
     # with that of the complement in reverse:
-    for i in range(len(string)-min_length):
+    for i in range(len(string)):
         # look for substrings of lengths within a given range:
-        for j in range(min_length,max_length+1):
-            # traverse both strings in the forward direction, but
-            # compare each substring of the original string with the
-            # reverse of the corresponding substring of the complement
-            if string[i:i+j] == complement[i:i+j][::-1]:
-                if len(string) >= (i+j):
+        for j in range(min_length,max_length+2):
+            # compare each substring (or k-mer of length in given range)
+            # with the reverse complement of that substring
+            if string[i:i+j] == reverse_complement(string[i:i+j]) and len(string) >= (i+j):
                     palindromes.append((i+1,j))
-                else:
-                    palindromes.append((i+1,len(string)-i))
-    return set(palindromes) # return all unique reverse palindromes
+            
+    return palindromes # return all unique reverse palindromes
 
 # testing
 string = 'TCAATGCATGCGGGTCTATATGCAT'
@@ -47,17 +52,3 @@ for position, length in palindromes: print(position, length)
 # 20 6
 # 21 4
 
-def readGenome(filename):
-    genome = ''
-    with open(filename, 'r') as f:    # f is the name for the filename variable
-        for line in f:
-            if line[0] != '>':
-                genome += line.rstrip() # rstrip removes spaces, tabs, \n
-    return genome
- 
-#filename = open('rosalind_revp.txt')
-
-dna = readGenome('rosalind_revp.txt')
-
-palindromes = reverse_palindrome(dna, min_length = 4, max_length = 12)
-#for position, length in palindromes: print(position, length)
