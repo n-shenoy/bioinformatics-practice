@@ -15,6 +15,6 @@ def dna_to_rna(dna):
 
 
 # testing
-print(dna_to_rna('GTATCAGT'))
+#print(dna_to_rna('GTATCAGT'))
 # Output: 'GUAUCAGU'
 

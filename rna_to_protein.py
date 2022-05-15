@@ -50,6 +50,6 @@ def rna_to_protein(rna):
 
 
 # testing
-print(rna_to_protein('AUGUAUUGCGCCAAGGAGUAG'))
+#print(rna_to_protein('AUGUAUUGCGCCAAGGAGUAG'))
 # Output: MYCAKE
 
