@@ -13,3 +13,4 @@ Here's a list of problems addressed in this repository:
 8. Finding all occurrences of a motif in a DNA sequence
 9. Creating an Overlap Graph of sequencing reads 
 10. Locating restriction sites: finding all reverse palindromes
+11. RNA splicing
