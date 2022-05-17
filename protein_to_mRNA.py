@@ -36,13 +36,18 @@ for acid in codon_table.values():
 #print(amino_acids)
 
 def protein_to_mRNA(protein):
-    num_mrna = amino_acids['Stop']
-    for acid in protein:
-        num_mrna = (num_mrna*amino_acids[acid]) % 1000000
+    """ return the number of possible mRNA sequences
+        that code for the given protein sequence """ 
+
+    num_mrna = amino_acids['Stop'] #stop codons
+    for acid in protein: 
+        num_mrna = (num_mrna*amino_acids[acid]) % 1000000 #storing large numbers
     return num_mrna
+
 
 # testing
 test_file = open('rosalind_mrna.txt') # source: https://rosalind.info
 protein = test_file.read().rstrip()
 test_file.close()
 print(protein_to_mRNA(protein)) 
+#Output: 311936
