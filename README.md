@@ -14,3 +14,4 @@ Here's a list of problems addressed in this repository:
 9. Creating an Overlap Graph of sequencing reads 
 10. Locating restriction sites: finding all reverse palindromes
 11. RNA splicing
+12. Inferring RNA from Protein: calculating the number of possible mRNAs that code for the same protein sequence
