@@ -4,12 +4,8 @@
 
 __author__ = "Navami Shenoy"
 
-# download the file
 import wget
-from itertools import permutations
-
-wget.download("https://d28rh4a8wq0iu5.cloudfront.net/ads1/data/ads1_week4_reads.fq", "ads1_week4_reads.fq")
-
+import operator
 
 def readFASTQ(filename):
     sequences = []
@@ -60,8 +56,8 @@ def overlap_all_pairs(reads, k): # k = minimum overlap length
             # store all reads that contain the k-mer as 
             # the k-mer's value in the dictionary:
             kmers.setdefault(read[i:i+k], set()).add(read)
-    
   
+    count = 0 # keeps track of the number of pairs
     for read in reads:
         # if the k-length suffix of a read matches 
         # a k-mer in the k-mer dictionary:
@@ -70,47 +66,44 @@ def overlap_all_pairs(reads, k): # k = minimum overlap length
             reads_list = kmers[read[-k:]]
             # calculate overlap length between the given 
             # read and all the reads that contain the k-mer:
+            best_overlap_len = 0
             for kmer_read in reads_list:
                 overlap_length = overlap(read, kmer_read, min_length=k)
                 # ignore cases where the reads are made of the 
                 # same exact sequence; if an overlap exists: 
                 if read != kmer_read and overlap_length != 0:
-                    # add the pairs and theor overlap length to the dictionary:
-                    overlaps[(read,kmer_read)] = overlap_length
+                    if overlap_length > best_overlap_len:
+                        best_overlap_len = overlap_length
+                        # add the pairs and their overlap length to the dictionary:
+                        overlaps[(read,kmer_read)] = overlap_length
+                        count += 1
                 
-    return overlaps
+    return overlaps, count
 
 
+def shortest_superstring(reads, overlap_length):
+    overlap_lengths, num_pairs = overlap_all_pairs(reads, overlap_length)
+    overlap_lengths = sorted(overlap_lengths.items(), key = operator.itemgetter(1),
+                    reverse = True)
+    read1 = overlap_lengths[0][0][0]
+    read2 = overlap_lengths[0][0][1]
+    overlap = overlap_lengths[0][1]
+    return read1, read2,overlap
 
-def scs(ss):
-    """ Returns shortest common superstring of given
-        strings, which must be the same length """
-    shortest_sup = None
-    for ssperm in itertools.permutations(ss):
-        sup = ssperm[0]  # superstring starts as first string
-        for i in range(len(ss)-1):
-            # overlap adjacent strings A and B in the permutation
-            olen = overlap(ssperm[i], ssperm[i+1], min_length=1)
-            # add non-overlapping portion of B to superstring
-            sup += ssperm[i+1][olen:]
-        if shortest_sup is None or len(sup) < len(shortest_sup):
-            shortest_sup = sup  # found shorter superstring
-    return shortest_sup  # return shortest
-
-
-def shortest_superstring(overlaps):
-    shortest_sup = None
-    superstring = ''
-    for key,value in overlaps.items():
-        superstring += key[1][value:]
-    if shortest_sup is None or len(superstring) < len(shortest_sup):
-        shortest_sup = superstring
-    return shortest_sup
 
 
 
 #testing
 reads = ['CGTACG', 'TACGTA', 'GTACGT', 'ACGTAC', 'GTACGA', 'TACGAT']
-overlaps = overlap_all_pairs(reads,3)
-print(shortest_superstring(overlaps))
-print(overlaps)
+print(shortest_superstring(reads,3))
+
+
+#wget.download("https://d28rh4a8wq0iu5.cloudfront.net/ads1/data/ads1_week4_reads.fq", "ads1_week4_reads.fq")
+seqs, __ = readFASTQ("ads1_week4_reads.fq")
+overlaps = overlap_all_pairs(seqs,50)
+#best_overlaps = pick_max_overlap(overlaps)
+shortest_sup = shortest_superstring(seqs,30)
+print(shortest_sup)
+print('LENGTH: ',len(shortest_sup))
+
+
