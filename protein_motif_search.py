@@ -5,15 +5,18 @@
 __author__ = "Navami Shenoy"
 
 import requests
-import bisect as bi
 
 def fetchFASTA(protein_id):
+    """ gets the protein sequence from the FASTA file
+        of a given protein using its access ID """
     url = 'https://www.uniprot.org/uniprot/'
-    data = requests.get(url+protein_id+".fasta")
-    sequence = data.text.split('\n')
+    data = requests.get(url+protein_id+".fasta") # retrieve FASTA file
+    sequence = data.text.split('\n') # get sequence from the file
     return "".join(sequence[1:])
 
 def n_gly_motif_search(protein_id):
+    """ find all positions in the protein sequence
+        where the N-glycosylation motif occurs """
     sequence = fetchFASTA(protein_id)
     positions = []
 
@@ -33,11 +36,12 @@ print(*positions)
 #         85 118 142 306 395     
 
 # testing
-with open('rosalind_mprt.txt') as f:
+with open('rosalind_mprt.txt') as f: # Test file source: www.rosalind.info 
     protein_IDs = f.read().split("\n")
     for ID in protein_IDs:
         protein_id, positions = n_gly_motif_search(ID)
-        if len(positions) != 0:
+        # return positions only if the motif exists:
+        if len(positions) != 0: 
             print(protein_id)
             print(*positions)
         
