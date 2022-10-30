@@ -16,3 +16,4 @@ Here's a list of problems addressed in this repository:
 11. RNA splicing
 12. Inferring RNA from Protein: calculating the number of possible mRNAs that code for the same protein sequence
 13. Finding a Protein Motif
+14. Calculating Protein Mass
